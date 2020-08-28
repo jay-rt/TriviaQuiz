@@ -1,6 +1,5 @@
-package com.example.triviaquiz;
+package com.example.triviaquiz.data.network;
 
-import com.example.triviaquiz.data.network.ApiService;
 import com.example.triviaquiz.util.TriviaQuizConst;
 
 import retrofit2.Retrofit;
