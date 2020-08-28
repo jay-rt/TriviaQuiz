@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.triviaquiz.R;
 import com.example.triviaquiz.data.network.ServiceGenerator;
@@ -24,16 +25,16 @@ public class QuizActivity extends AppCompatActivity {
         binding = ActivityQuizBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        QuizAdapter adapter = new QuizAdapter();
+        QuizAdapter adapter = new QuizAdapter(ans -> {
+            Toast.makeText(QuizActivity.this, "Ans: " + ans, Toast.LENGTH_SHORT).show();
+        });
         binding.quizRecyclerView.setAdapter(adapter);
 
         ServiceGenerator.getService().getQuizzes().enqueue(new Callback<QuizWrapper>() {
             @Override
             public void onResponse(Call<QuizWrapper> call, Response<QuizWrapper> response) {
                 if (response.body() != null && response.isSuccessful()) {
-                    Log.e("respose", "yay");
                     adapter.setQuizList(response.body().getResults());
-                    Log.e("transferring_value", "yay");
                     adapter.notifyDataSetChanged();
                 }
             }

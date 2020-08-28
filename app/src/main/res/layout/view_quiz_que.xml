@@ -54,7 +54,7 @@
             android:layout_margin="8dp"
             android:paddingHorizontal="25dp"
             android:paddingVertical="10dp"
-            android:textSize="25sp"
+            android:textSize="21sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
             android:layout_margin="8dp"
             android:paddingHorizontal="25dp"
             android:paddingVertical="10dp"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quizQuestion" />
@@ -81,7 +81,7 @@
             android:layout_margin="8dp"
             android:paddingHorizontal="25dp"
             android:paddingVertical="10dp"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quizOptionA" />
@@ -94,7 +94,7 @@
             android:layout_margin="8dp"
             android:paddingHorizontal="25dp"
             android:paddingVertical="10dp"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quizOptionB" />
@@ -107,10 +107,23 @@
             android:layout_margin="8dp"
             android:paddingHorizontal="25dp"
             android:paddingVertical="10dp"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quizOptionC" />
+
+        <TextView
+            android:id="@+id/quizOptionE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quizOptionD" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
