@@ -1,11 +1,12 @@
 package com.example.triviaquiz.ui.quiz;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.triviaquiz.data.network.model.Quiz;
@@ -14,17 +15,25 @@ import com.example.triviaquiz.databinding.ViewQuizQueBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizQueViewHolder> {
+public class QuizAdapter extends ListAdapter<Quiz, QuizAdapter.QuizQueViewHolder> {
 
-    private List<Quiz> quizList = new ArrayList<>();
+    public static DiffUtil.ItemCallback<Quiz> DIFF_CALLBACK = new DiffUtil.ItemCallback<Quiz>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Quiz oldItem, @NonNull Quiz newItem) {
+            return oldItem.getQuestion().equals(newItem.getQuestion());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Quiz oldItem, @NonNull Quiz newItem) {
+            return true;
+        }
+    };
+
     private OnAnswerClickListener listener;
 
     public QuizAdapter(OnAnswerClickListener listener) {
+        super(DIFF_CALLBACK);
         this.listener = listener;
-    }
-
-    public void setQuizList(List<Quiz> quizList) {
-        this.quizList = quizList;
     }
 
     @NonNull
@@ -35,12 +44,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizQueViewHol
 
     @Override
     public void onBindViewHolder(@NonNull QuizQueViewHolder holder, int position) {
-        holder.bind(quizList.get(position), listener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return quizList.size();
+        holder.bind(getItem(position), listener);
     }
 
     public interface OnAnswerClickListener {

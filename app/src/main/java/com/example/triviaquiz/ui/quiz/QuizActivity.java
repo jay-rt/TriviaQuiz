@@ -1,6 +1,7 @@
 package com.example.triviaquiz.ui.quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import retrofit2.Response;
 public class QuizActivity extends AppCompatActivity {
 
     private ActivityQuizBinding binding;
+    private QuizViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,24 +27,15 @@ public class QuizActivity extends AppCompatActivity {
         binding = ActivityQuizBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        viewModel = new ViewModelProvider(this).get(QuizViewModel.class);
+
         QuizAdapter adapter = new QuizAdapter(ans -> {
             Toast.makeText(QuizActivity.this, "Ans: " + ans, Toast.LENGTH_SHORT).show();
         });
         binding.quizRecyclerView.setAdapter(adapter);
 
-        ServiceGenerator.getService().getQuizzes().enqueue(new Callback<QuizWrapper>() {
-            @Override
-            public void onResponse(Call<QuizWrapper> call, Response<QuizWrapper> response) {
-                if (response.body() != null && response.isSuccessful()) {
-                    adapter.setQuizList(response.body().getResults());
-                    adapter.notifyDataSetChanged();
-                }
-            }
+        viewModel.getQuizList().observe(this, adapter::submitList);
 
-            @Override
-            public void onFailure(Call<QuizWrapper> call, Throwable t) {
 
-            }
-        });
     }
 }
