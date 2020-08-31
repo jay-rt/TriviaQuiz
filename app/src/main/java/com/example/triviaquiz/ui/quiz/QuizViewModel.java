@@ -1,13 +1,10 @@
 package com.example.triviaquiz.ui.quiz;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.triviaquiz.data.QuizRepository;
-import com.example.triviaquiz.data.network.ServiceGenerator;
-import com.example.triviaquiz.data.network.model.Quiz;
-import com.example.triviaquiz.data.network.model.QuizWrapper;
+import com.example.triviaquiz.data.database.LocalQuiz;
 
 import java.util.List;
 
@@ -20,7 +17,7 @@ public class QuizViewModel extends ViewModel {
         repository.loadQuizData();
     }
 
-    public LiveData<List<Quiz>> getQuizList() {
+    public LiveData<List<LocalQuiz>> getQuizList() {
         return repository.getQuizList();
     }
 

@@ -1,13 +1,19 @@
 package com.example.triviaquiz.data;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.os.AsyncTask;
+import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
+import com.example.triviaquiz.data.database.LocalQuiz;
+import com.example.triviaquiz.data.database.QuizDatabase;
 import com.example.triviaquiz.data.network.ServiceGenerator;
 import com.example.triviaquiz.data.network.model.Quiz;
 import com.example.triviaquiz.data.network.model.QuizWrapper;
+import com.example.triviaquiz.util.Converters;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,10 +21,10 @@ import retrofit2.Response;
 
 public class QuizRepository {
 
-    private MutableLiveData<List<Quiz>> quizList = new MutableLiveData<>();
+    private QuizDatabase database = ServiceGenerator.getDatabase();
 
-    public LiveData<List<Quiz>> getQuizList() {
-        return quizList;
+    public LiveData<List<LocalQuiz>> getQuizList() {
+        return database.getQuizDao().getQuizList();
     }
 
     public void loadQuizData() {
@@ -27,7 +33,16 @@ public class QuizRepository {
             @Override
             public void onResponse(Call<QuizWrapper> call, Response<QuizWrapper> response) {
                 if (response.body() != null && response.isSuccessful()) {
-                    quizList.setValue(response.body().getResults());
+                    Log.e("yay", "data_in");
+                    List<Quiz> httpQuiz = response.body().getResults();
+                    Converters converters = new Converters();
+                    List<LocalQuiz> quizList = httpQuiz.stream()
+                            .map(it -> new LocalQuiz(it.getQuestion(),
+                                    it.getCorrectAnswer(),
+                                    converters.listToString(it.getInCorrectAnswers())))
+                            .collect(Collectors.toList());
+
+                    AsyncTask.execute(() -> database.getQuizDao().insertQuizData(quizList));
                 }
             }
 

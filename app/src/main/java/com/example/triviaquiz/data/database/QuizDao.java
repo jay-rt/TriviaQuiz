@@ -16,7 +16,7 @@ public interface QuizDao {
     void insertQuizData(List<LocalQuiz> quizList);
 
     @Query("SELECT * FROM quiz_data")
-    LiveData<List<LocalQuiz>> getQuizQues();
+    LiveData<List<LocalQuiz>> getQuizList();
 
     @Update
     void update(LocalQuiz localQuiz);

@@ -9,22 +9,19 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.triviaquiz.data.network.model.Quiz;
+import com.example.triviaquiz.data.database.LocalQuiz;
 import com.example.triviaquiz.databinding.ViewQuizQueBinding;
 
-import java.util.ArrayList;
-import java.util.List;
+public class QuizAdapter extends ListAdapter<LocalQuiz, QuizAdapter.QuizQueViewHolder> {
 
-public class QuizAdapter extends ListAdapter<Quiz, QuizAdapter.QuizQueViewHolder> {
-
-    public static DiffUtil.ItemCallback<Quiz> DIFF_CALLBACK = new DiffUtil.ItemCallback<Quiz>() {
+    public static DiffUtil.ItemCallback<LocalQuiz> DIFF_CALLBACK = new DiffUtil.ItemCallback<LocalQuiz>() {
         @Override
-        public boolean areItemsTheSame(@NonNull Quiz oldItem, @NonNull Quiz newItem) {
+        public boolean areItemsTheSame(@NonNull LocalQuiz oldItem, @NonNull LocalQuiz newItem) {
             return oldItem.getQuestion().equals(newItem.getQuestion());
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Quiz oldItem, @NonNull Quiz newItem) {
+        public boolean areContentsTheSame(@NonNull LocalQuiz oldItem, @NonNull LocalQuiz newItem) {
             return true;
         }
     };
@@ -60,7 +57,7 @@ public class QuizAdapter extends ListAdapter<Quiz, QuizAdapter.QuizQueViewHolder
             this.binding = binding;
         }
 
-        public void bind(Quiz quiz, OnAnswerClickListener listener) {
+        public void bind(LocalQuiz quiz, OnAnswerClickListener listener) {
             binding.quizQuestion.setText(quiz.getQuestion());
             binding.quizOptionA.setText(quiz.getAnswers().get(0));
             binding.quizOptionB.setText(quiz.getAnswers().get(1));
