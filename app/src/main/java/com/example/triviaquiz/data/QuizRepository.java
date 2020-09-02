@@ -33,7 +33,6 @@ public class QuizRepository {
             @Override
             public void onResponse(Call<QuizWrapper> call, Response<QuizWrapper> response) {
                 if (response.body() != null && response.isSuccessful()) {
-                    Log.e("yay", "data_in");
                     List<Quiz> httpQuiz = response.body().getResults();
                     Converters converters = new Converters();
                     List<LocalQuiz> quizList = httpQuiz.stream()
@@ -42,7 +41,10 @@ public class QuizRepository {
                                     converters.listToString(it.getInCorrectAnswers())))
                             .collect(Collectors.toList());
 
-                    AsyncTask.execute(() -> database.getQuizDao().insertQuizData(quizList));
+                    AsyncTask.execute(() -> {
+                        database.getQuizDao().deleteAll();
+                        database.getQuizDao().insertQuizData(quizList);
+                    });
                 }
             }
 
