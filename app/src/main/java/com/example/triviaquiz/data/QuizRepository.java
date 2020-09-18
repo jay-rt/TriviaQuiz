@@ -1,7 +1,6 @@
 package com.example.triviaquiz.data;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -41,10 +40,8 @@ public class QuizRepository {
                                     converters.listToString(it.getInCorrectAnswers())))
                             .collect(Collectors.toList());
 
-                    AsyncTask.execute(() -> {
-                        database.getQuizDao().deleteAll();
-                        database.getQuizDao().insertQuizData(quizList);
-                    });
+                    AsyncTask.execute(() -> database.getQuizDao().deleteAll());
+                    AsyncTask.execute(() -> database.getQuizDao().insertQuizData(quizList));
                 }
             }
 
@@ -53,5 +50,13 @@ public class QuizRepository {
 
             }
         });
+    }
+
+    public void updateAns(LocalQuiz quiz) {
+        AsyncTask.execute(() -> database.getQuizDao().update(quiz));
+    }
+
+    public void isAnsCorrect() {
+        AsyncTask.execute(() -> database.getQuizDao().updateScore());
     }
 }

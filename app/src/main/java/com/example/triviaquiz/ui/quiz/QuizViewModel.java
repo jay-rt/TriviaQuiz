@@ -21,4 +21,19 @@ public class QuizViewModel extends ViewModel {
         return repository.getQuizList();
     }
 
+    public void isAnsCorrect(LocalQuiz quiz, String ans) {
+
+        LocalQuiz afterResponse = new LocalQuiz(quiz.getId()
+                ,quiz.getQuestion()
+                ,quiz.getCorrectAnswer()
+                ,quiz.getIncorrectAnswers()
+                ,(quiz.getScore())
+                ,ans);
+        repository.updateAns(afterResponse);
+
+        if (quiz.getCorrectAnswer().equals(ans)) {
+            repository.isAnsCorrect();
+        }
+    }
+
 }

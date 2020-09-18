@@ -22,7 +22,7 @@ public class QuizAdapter extends ListAdapter<LocalQuiz, QuizAdapter.QuizQueViewH
 
         @Override
         public boolean areContentsTheSame(@NonNull LocalQuiz oldItem, @NonNull LocalQuiz newItem) {
-            return true;
+            return oldItem.getScore().equals(newItem.getScore());
         }
     };
 
@@ -45,7 +45,7 @@ public class QuizAdapter extends ListAdapter<LocalQuiz, QuizAdapter.QuizQueViewH
     }
 
     public interface OnAnswerClickListener {
-        void onAnswerClick(String ans);
+        void onAnswerClick(LocalQuiz quiz, String ans);
     }
 
     public static class QuizQueViewHolder extends RecyclerView.ViewHolder {
@@ -58,6 +58,8 @@ public class QuizAdapter extends ListAdapter<LocalQuiz, QuizAdapter.QuizQueViewH
         }
 
         public void bind(LocalQuiz quiz, OnAnswerClickListener listener) {
+            binding.quizQuestion.setText(quiz.getId().toString());
+            binding.currentScore.setText(quiz.getScore().toString());
             binding.quizQuestion.setText(quiz.getQuestion());
             binding.quizOptionA.setText(quiz.getAnswers().get(0));
             binding.quizOptionB.setText(quiz.getAnswers().get(1));
@@ -75,15 +77,17 @@ public class QuizAdapter extends ListAdapter<LocalQuiz, QuizAdapter.QuizQueViewH
                 }
             }
 
-            binding.quizOptionA.setOnClickListener(v -> listener.onAnswerClick(quiz.getAnswers().get(0)));
-            binding.quizOptionB.setOnClickListener(v -> listener.onAnswerClick(quiz.getAnswers().get(1)));
+            binding.quizOptionA.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(0)));
+            binding.quizOptionB.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(1)));
 
             switch (quiz.getAnswers().size()) {
                 case 4:
-                    binding.quizOptionC.setOnClickListener(v -> listener.onAnswerClick(quiz.getAnswers().get(2)));
-                    binding.quizOptionD.setOnClickListener(v -> listener.onAnswerClick(quiz.getAnswers().get(3)));
+                    binding.quizOptionC.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(2)));
+                    binding.quizOptionD.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(3)));
                 case 5:
-                    binding.quizOptionE.setOnClickListener(v -> listener.onAnswerClick(quiz.getAnswers().get(4)));
+                    binding.quizOptionC.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(2)));
+                    binding.quizOptionD.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(3)));
+                    binding.quizOptionE.setOnClickListener(v -> listener.onAnswerClick(quiz,quiz.getAnswers().get(4)));
             }
         }
 

@@ -32,9 +32,15 @@ public class QuizActivity extends AppCompatActivity {
         QuizViewModelFactory factory = new QuizViewModelFactory(repository);
         viewModel = new ViewModelProvider(this, factory).get(QuizViewModel.class);
 
-        QuizAdapter adapter = new QuizAdapter(ans -> {
-            Toast.makeText(QuizActivity.this, "Ans: " + ans, Toast.LENGTH_SHORT).show();
+//        QuizAdapter adapter = new QuizAdapter(ans -> {
+//            Toast.makeText(QuizActivity.this, "Ans: " + ans, Toast.LENGTH_SHORT).show();
+//        });
+
+        QuizAdapter adapter = new QuizAdapter((quiz, ans) -> {
+            viewModel.isAnsCorrect(quiz,ans);
+            Toast.makeText(QuizActivity.this, "Ans" + ans, Toast.LENGTH_SHORT).show();
         });
+
         binding.quizRecyclerView.setAdapter(adapter);
 
         viewModel.getQuizList().observe(this, adapter::submitList);
